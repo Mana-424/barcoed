@@ -477,8 +477,11 @@ def count_down(photo_id):
 
     date_str = request.form.get("date")
 
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
     if date_str:
-        target_date = datetime.strptime(date_str,"%Y-%m-%d").date()
+        target_date = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y-%m-%d")
     else:
         target_date = date.today()
 
@@ -583,3 +586,4 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+
