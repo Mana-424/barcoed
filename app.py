@@ -78,6 +78,18 @@ def index():
                 filename=filename
             )
 
+                        # 画像削除
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], photo.filename)
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
+            db.session.delete(photo)
+        
+            # 🔥 今日の検索回数をリセット
+            history = SearchHistory.query.order_by(SearchHistory.id.desc()).first()
+            if history:
+                history.today_total = 0
+
             db.session.add(new_photo)
             db.session.commit()
 
@@ -381,3 +393,4 @@ if __name__ == "__main__":
         port=5000,
         debug=False
     )
+
