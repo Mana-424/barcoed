@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>一覧</h2>
+
+<div class="photo-grid">
+
+{% for photo, today_count in photos %}
+
+<div class="card">
+
+<img src="{{ url_for('static', filename='uploads/' + photo.filename) }}">
+
+<div class="card-body">
+
+<p><strong>ID:</strong> {{ photo.id }}</p>
+
+<!-- 名前保存 -->
+<form method="POST" action="{{ url_for('update_name', photo_id=photo.id) }}">
+<p>商品名</p>
+<input type="text"
+       name="name"
+       placeholder="商品名を入力"
+       value="{{ photo.name or '' }}">
+<button type="submit">保存</button>
+</form>
+
+<!-- 色保存 -->
+<form method="POST" action="{{ url_for('update_color', photo_id=photo.id) }}">
+<input type="text"
+       name="color"
+       placeholder="色を入力"
+       value="{{ photo.color or '' }}">
+<button type="submit">色保存</button>
+</form>
+
+<!-- 検索回数 -->
+<div class="count-box">
+
+<strong>検索回数:</strong>
+
+<form action="{{ url_for('count_down', photo_id=photo.id) }}" method="post" style="display:inline;">
+<button type="submit">−</button>
+</form>
+
+<span class="count-number">
+{{ today_count or 0 }}
+</span>
+
+<form action="{{ url_for('count_up', photo_id=photo.id) }}" method="post" style="display:inline;">
+<button type="submit">＋</button>
+</form>
+
+</div>
+
+<!-- 削除 -->
+<form method="POST" action="{{ url_for('delete', photo_id=photo.id) }}">
+<button type="submit" class="delete-btn">
+削除
+</button>
+</form>
+
+</div>
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
