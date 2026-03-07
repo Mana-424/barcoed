@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title>MATERUA管理アプリ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <div style="margin-left:auto;">
+    {% if session["username"] %}
+        <span>👤 {{ session["username"] }}</span>
+    {% endif %}
+    <div style="margin-left:auto;">
+    {% if session["username"] %}
+        <span>👤 {{ session["username"] }}</span>
+    {% endif %}
+</div></div>
 
 </head>
 <body>
@@ -24,4 +33,5 @@
 </div>
 
 </body>
+
 </html>
