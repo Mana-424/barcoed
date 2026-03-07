@@ -115,8 +115,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_pre_ping": True
 }
 
-# DB初期化（これが必要）
-db = SQLAlchemy(app)
+
 
 # アップロードフォルダ
 app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
@@ -130,6 +129,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+
+# DB初期化（これが必要）
+db = SQLAlchemy(app)
 
 # ======================
 # ユーザー登録
@@ -673,6 +675,7 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=10000
     )
+
 
 
 
