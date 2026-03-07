@@ -54,6 +54,12 @@
 </form>
 
 </div>
+<!-- 削除 -->
+<form method="POST" action="{{ url_for('delete', photo_id=photo.id) }}">
+<button type="submit" class="delete-btn">
+       削除
+</button>
+</form>
 
 
 </div>
@@ -62,5 +68,6 @@
 {% endfor %}
 
 </div>
+
 
 {% endblock %}
