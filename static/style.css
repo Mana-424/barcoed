@@ -151,3 +151,9 @@ nav a:hover {
     align-items: center;
     justify-content: space-between;
 }
+
+.warning{
+    color: red;
+    font-weight: bold;
+}
+
