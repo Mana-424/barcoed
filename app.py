@@ -581,16 +581,4 @@ def calendar_day():
 # 実行
 # ======================
 if __name__ == "__main__":
-    app.run(==> No open HTTP ports detected on 0.0.0.0, continuing to scan...
-Menu
-[2026-03-07 05:29:20 +0000] [56] [INFO] Handling signal: term
-[2026-03-07 05:29:20 +0000] [58] [INFO] Worker exiting (pid: 58)
-[2026-03-07 05:29:21 +0000] [56] [INFO] Shutting down: Master
-==> No open HTTP ports detected on 0.0.0.0, continuing to scan...
-==> No open HTTP ports detected on 0.0.0.0, continuing to scan...
-==> No open HTTP ports detected on 0.0.0.0, continuing to scan...
-==> No open HTTP ports detected on 0.0.0.0, continuing to scan...
-==> Port scan timeout reached, no open HTTP ports detected. If you don't need to receive public HTTP traffic, create a private service instead)
-
-
-
+    app.run()
