@@ -16,20 +16,25 @@ app.config["SECRET_KEY"] = "secret_key_123"
 # ======================
 import os
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+database_url = os.getenv("DATABASE_URL")
+
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True
 }
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["UPLOAD_FOLDER"] = "static/uploads"
 
-db = SQLAlchemy(app)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-# uploadsフォルダ作成
-if not os.path.exists(app.config["UPLOAD_FOLDER"]):
-    os.makedirs(app.config["UPLOAD_FOLDER"])
+app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
+
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 #=======================
 #ユーザー登録
@@ -592,5 +597,6 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=10000
     )
+
 
 
