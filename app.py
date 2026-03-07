@@ -1,106 +1,20 @@
-# from flask import Flask, render_template, request, redirect, url_for, jsonify
-# from flask_sqlalchemy import SQLAlchemy
-# from werkzeug.utils import secure_filename
-# from datetime import date
-# import os
-# from sqlalchemy import func
-# from datetime import datetime
-# from flask import session
-
-# app = Flask(__name__)
-
-# app.config["SECRET_KEY"] = "secret_key_123"
-
-# # ======================
-# # 設定
-# # ======================
-# import os
-
-# database_url = os.getenv("DATABASE_URL")
-
-# if database_url and database_url.startswith("postgres://"):
-#     database_url = database_url.replace("postgres://", "postgresql://", 1)
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-
-# app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-#     "pool_recycle": 300,
-#     "pool_pre_ping": True
-# }
-
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-# app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-
-# app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
-
-# os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-# #=======================
-# #ユーザー登録
-# #=======================
-# from flask import session
-# from werkzeug.security import generate_password_hash, check_password_hash
-# from sqlalchemy.orm import sessionmaker
-
-# def get_db_session():
-
-#     username = session.get("username")
-
-#     if not username:
-#         return None
-
-#     db_path = f"user_db/{username}.db"
-
-#     engine = db.create_engine(f"sqlite:///{db_path}")
-
-#     Session = sessionmaker(bind=engine)
-
-#     return Session()
-
-# @app.route("/register", methods=["GET","POST"])
-# def register():
-
-#     if request.method == "POST":
-
-#         username = request.form["username"]
-#         password = request.form["password"]
-
-#         # 既存ユーザー確認
-#         user = User.query.filter_by(username=username).first()
-
-#         if user:
-#             return "そのユーザー名は既に登録されています"
-
-#         hashed_password = generate_password_hash(password)
-
-#         new_user = User(
-#             username=username,
-#             password=hashed_password
-#         )
-
-#         db.session.add(new_user)
-#         db.session.commit()
-
-#         return redirect(url_for("login"))
-
-#     return render_template("register.html")
-
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from datetime import date, datetime
-from sqlalchemy import func
-from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 import os
+from sqlalchemy import func
+from datetime import datetime
+from flask import session
 
 app = Flask(__name__)
+
+app.config["SECRET_KEY"] = "secret_key_123"
 
 # ======================
 # 設定
 # ======================
-
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "secret_key_123")
+import os
 
 database_url = os.getenv("DATABASE_URL")
 
@@ -108,34 +22,41 @@ if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True
 }
 
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-# アップロードフォルダ
 app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
+
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-# ======================
-# ユーザーモデル
-# ======================
+#=======================
+#ユーザー登録
+#=======================
+from flask import session
+from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import sessionmaker
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+def get_db_session():
 
-# DB初期化（これが必要）
-db = SQLAlchemy(app)
+    username = session.get("username")
 
-# ======================
-# ユーザー登録
-# ======================
+    if not username:
+        return None
+
+    db_path = f"user_db/{username}.db"
+
+    engine = db.create_engine(f"sqlite:///{db_path}")
+
+    Session = sessionmaker(bind=engine)
+
+    return Session()
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -145,6 +66,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
 
+        # 既存ユーザー確認
         user = User.query.filter_by(username=username).first()
 
         if user:
@@ -163,6 +85,7 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
 
 #=======================
 #ログイン
@@ -675,6 +598,7 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=10000
     )
+
 
 
 
