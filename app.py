@@ -14,7 +14,8 @@ app.config["SECRET_KEY"] = "secret_key_123"
 # ======================
 # 設定
 # ======================
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///photos.db"
+import os
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOAD_FOLDER"] = "static/uploads"
 
@@ -585,3 +586,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=10000
     )
+
