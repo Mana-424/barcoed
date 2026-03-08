@@ -525,10 +525,12 @@ def calendar_day():
         Photo,
         db.func.coalesce(SearchHistory.count, 0)
     ).outerjoin(
-    SearchHistory,
-    (Photo.id == SearchHistory.photo_id) &
-    (SearchHistory.date == date_obj) &
-    (SearchHistory.user_id == user_id)
+        SearchHistory,
+        Photo.id == SearchHistory.photo_id
+    ).filter(
+        SearchHistory.date == date_obj,
+        SearchHistory.user_id == user_id
+    ).all()
 
     return render_template(
         "calendar_day.html",
@@ -542,6 +544,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
