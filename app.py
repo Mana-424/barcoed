@@ -266,8 +266,11 @@ def search():
 
     if photo:
 
-        today = date.today()
+        # today = date.today()
 
+
+        today = datetime.now(ZoneInfo("Asia/Tokyo")).date()
+        
         history = SearchHistory.query.filter_by(
             user_id=user_id,
             photo_id=photo.id,
@@ -594,6 +597,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
