@@ -17,9 +17,12 @@ header {
     justify-content:center;
 
     color:white;
-    filter: brightness(60%);
+
 }
 
+header img{
+    filter: brightness(60%);
+}
 /* header {
     background:
         linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
@@ -177,6 +180,7 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
 
