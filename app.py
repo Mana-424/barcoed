@@ -34,7 +34,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_pre_ping": True
 }
 
-app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
+app.config["UPLOAD_FOLDER"] = "static/uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 db = SQLAlchemy(app)
@@ -312,6 +312,9 @@ def search():
         today_count=today_count
     )
 
+# # ======================
+# # 削除
+# # ======================
 
 @app.route("/delete/<string:photo_id>", methods=["POST"])
 def delete(photo_id):
@@ -597,6 +600,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
