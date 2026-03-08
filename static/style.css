@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 
-/* header {
+header {
     background-image: url("/static/header.JPG");
     background-size: cover;
     background-position: center;
@@ -17,9 +17,9 @@ body {
     justify-content:center;
 
     color:white;
-} */
+}
 
-header {
+/* header {
     background:
         linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
         url("/static/header.jpg");
@@ -29,7 +29,7 @@ header {
 
     color:white;
     padding:20px;
-}
+} */
 
 
 .container {
@@ -176,6 +176,7 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
 
