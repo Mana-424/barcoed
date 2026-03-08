@@ -302,6 +302,17 @@ def search():
         today_count=today_count
     )
 
+
+@app.route("/delete/<string:photo_id>", methods=["POST"])
+def delete(photo_id):
+    photo = Photo.query.get_or_404(photo_id)
+
+    db.session.delete(photo)
+    db.session.commit()
+
+    return redirect(url_for("index"))
+
+
 # # ======================
 # # カレンダーイベント
 # # ======================
@@ -544,6 +555,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
