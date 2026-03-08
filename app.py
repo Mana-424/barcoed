@@ -509,7 +509,6 @@ def calendar_events():
 @app.route("/calendar_day")
 def calendar_day():
 
-    # ⭐ URLから取得
     date_str = request.args.get("date")
     photo_id = request.args.get("photo_id")
 
@@ -518,7 +517,11 @@ def calendar_day():
 
     date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
 
-    # ⭐ 今日カウント（指定商品）
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return redirect(url_for("login"))
+
     today_count = 0
 
     if photo_id:
@@ -528,9 +531,6 @@ def calendar_day():
             SearchHistory.photo_id == photo_id,
             SearchHistory.date == date_obj
         ).scalar()
-
-    # ⭐ 日別一覧取得
-    user_id = session["user_id"]
 
     results = db.session.query(
         Photo,
@@ -555,6 +555,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
