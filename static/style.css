@@ -10,7 +10,9 @@ header {
     background-size: cover;
     background-position: center;
 
-    height:500px;
+    height:700px;
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+    
 
     display:flex;
     align-items:center;
@@ -21,6 +23,7 @@ header {
 }
 
 header img{
+    object-fit: cover;
     filter: brightness(60%);
 }
 /* header {
@@ -180,6 +183,7 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
 
