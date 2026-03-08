@@ -5,9 +5,7 @@
     <title>MATERUA管理アプリ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <div style="margin-left:auto;">
-    {% if session["username"] %}
-        <span>👤 {{ session["username"] }}</span>
-    {% endif %}
+
 </div></div>
 
 </head>
@@ -21,6 +19,9 @@
         <a href="/calendar">カレンダー</a>
         <a href="{{ url_for('index') }}">設定</a>  
         <a href="/logout" class="logout-btn">ログアウト</a>
+        {% if session["username"] %}
+        <span>👤 {{ session["username"] }}</span>
+        {% endif %}
     </nav>
 </header>
 
@@ -31,4 +32,5 @@
 </body>
 
 </html>
+
 
