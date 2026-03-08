@@ -10,7 +10,7 @@ header {
     background-size: cover;
     background-position: center;
 
-    height:120px;
+    height:300px;
 
     display:flex;
     align-items:center;
@@ -187,6 +187,7 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
 
