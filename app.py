@@ -17,10 +17,14 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "secret_key_123")
 
 database_url = os.getenv("DATABASE_URL")
 
-if database_url and database_url.startswith("postgres://"):
+if not database_url:
+    raise ValueError("DATABASE_URL is not set")
+
+if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
@@ -333,3 +337,4 @@ def calendar_events():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
