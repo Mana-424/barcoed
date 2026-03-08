@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         events: "/calendar_events",
 
+        timeZone: 'Asia/Tokyo'
+
         dateClick: function(info) {
             window.location.href = "/calendar_day?date=" + info.dateStr;
         }
@@ -31,5 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
+
 
 {% endblock %}
