@@ -451,7 +451,7 @@ def calendar_events():
         events.append({
             "title": str(total),
             "start": d.strftime("%Y-%m-%d")
-            "allDay": True
+            "allDay": True,
         })
 
 })
@@ -558,6 +558,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
