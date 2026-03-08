@@ -436,11 +436,23 @@ def count_down(photo_id):
 # ======================
 # カレンダーイベント
 # ======================
+
+# ======================
+# カレンダーイベント
+# ======================
 @app.route("/calendar_events")
 def calendar_events():
+
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify([])
+
     results = db.session.query(
         SearchHistory.date,
         db.func.sum(SearchHistory.count)
+    ).filter(
+        SearchHistory.user_id == user_id
     ).group_by(
         SearchHistory.date
     ).all()
@@ -450,11 +462,30 @@ def calendar_events():
     for d, total in results:
         events.append({
             "title": str(total),
-            "start": d.strftime("%Y-%m-%d")
-            "allDay": True,
+            "start": d.strftime("%Y-%m-%d"),
+            "allDay": True
         })
 
     return jsonify(events)
+# @app.route("/calendar_events")
+# def calendar_events():
+#     results = db.session.query(
+#         SearchHistory.date,
+#         db.func.sum(SearchHistory.count)
+#     ).group_by(
+#         SearchHistory.date
+#     ).all()
+
+#     events = []
+
+#     for d, total in results:
+#         events.append({
+#             "title": str(total),
+#             "start": d.strftime("%Y-%m-%d"),
+#             "allDay": True
+#         })
+
+#     return jsonify(events)
 
 
 # # ======================
@@ -556,6 +587,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
