@@ -6,6 +6,8 @@ from datetime import date, datetime
 from sqlalchemy import func
 from functools import wraps
 import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 
@@ -186,7 +188,12 @@ def index():
 
             return redirect(url_for("index"))
 
-    today = date.today()
+    # today = date.today()
+
+
+    today = datetime.now(ZoneInfo("Asia/Tokyo")).date()
+
+    
     user_id = session["user_id"]
 
     photos = db.session.query(
@@ -587,6 +594,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
