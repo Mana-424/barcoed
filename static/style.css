@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background-image: url("/static/header.jpg");
+    background-image: url("/static/header.JPG");
     background-size: cover;
     background-position: center;
 
@@ -163,5 +163,6 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
