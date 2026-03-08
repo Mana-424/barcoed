@@ -16,7 +16,7 @@ header {
     align-items: center;
     justify-content: center;
 
-    color: #bce2e8;
+    color: white;
 
     position: relative;
 }
@@ -181,6 +181,7 @@ nav a:hover {
     color: red;
     font-weight: bold;
 }
+
 
 
 
