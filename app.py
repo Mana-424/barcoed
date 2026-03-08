@@ -302,21 +302,134 @@ def search():
         today_count=today_count
     )
 
+# # ======================
+# # カレンダーイベント
+# # ======================
+
+# @app.route("/calendar_events")
+# @login_required
+# def calendar_events():
+
+#     user_id = session["user_id"]
+
+#     results = db.session.query(
+#         SearchHistory.date,
+#         func.sum(SearchHistory.count)
+#     ).filter(
+#         SearchHistory.user_id == user_id
+#     ).group_by(
+#         SearchHistory.date
+#     ).all()
+
+#     events = []
+
+#     for d, total in results:
+#         events.append({
+#             "title": str(total),
+#             "start": d.strftime("%Y-%m-%d")
+#         })
+
+#     return jsonify(events)
+# ======================
+# 日付更新
+# ======================
+@app.route("/update_date/<string:photo_id>", methods=["POST"])
+def update_date(photo_id):
+    photo = Photo.query.get_or_404(photo_id)
+    photo.date = request.form.get("date")
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
+# ======================
+# カレンダー
+# ======================
+@app.route("/calendar")
+def calendar():
+    selected_date = request.args.get("date")
+    histories = []
+
+    if selected_date:
+        date_obj = datetime.strptime(selected_date, "%Y-%m-%d").date()
+        histories = SearchHistory.query.filter_by(
+            date=date_obj
+        ).all()
+
+    return render_template(
+        "calendar.html",
+        histories=histories,
+        selected_date=selected_date
+    )
+
+
+# ======================
+# 検索回数 ＋
+# ======================
+@app.route("/count_up/<string:photo_id>", methods=["POST"])
+def count_up(photo_id):
+    user_id = session["user_id"]
+    date_str = request.form.get("date")
+
+    if date_str:
+        target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    else:
+        target_date = date.today()
+
+    history = SearchHistory.query.filter_by(
+        user_id=user_id,
+        photo_id=photo_id,
+        date=target_date
+    ).first()
+
+    if history:
+        history.count += 1
+    else:
+        history = SearchHistory(
+            user_id=user_id,
+            photo_id=photo_id,
+            date=target_date,
+            count=1
+        )
+        db.session.add(history)
+
+    db.session.commit()
+    return redirect(request.referrer)
+
+
+# ======================
+# 検索回数 −
+# ======================
+@app.route("/count_down/<string:photo_id>", methods=["POST"])
+def count_down(photo_id):
+    user_id = session["user_id"]
+    date_str = request.form.get("date")
+
+    if date_str:
+        target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    else:
+        target_date = date.today()
+
+    history = SearchHistory.query.filter_by(
+        user_id=user_id,
+        photo_id=photo_id,
+        date=target_date
+    ).first()
+
+    if history and history.count > 0:
+        history.count -= 1
+
+    db.session.commit()
+    return redirect(request.referrer)
+
+
 # ======================
 # カレンダーイベント
 # ======================
-
 @app.route("/calendar_events")
-@login_required
 def calendar_events():
-
-    user_id = session["user_id"]
-
     results = db.session.query(
         SearchHistory.date,
-        func.sum(SearchHistory.count)
-    ).filter(
-        SearchHistory.user_id == user_id
+        db.func.sum(SearchHistory.count)
     ).group_by(
         SearchHistory.date
     ).all()
@@ -331,10 +444,58 @@ def calendar_events():
 
     return jsonify(events)
 
+
+# ======================
+# 日付
+# ======================
+@app.route("/calendar_day")
+def calendar_day():
+
+    # ⭐ URLから取得
+    date_str = request.args.get("date")
+    photo_id = request.args.get("photo_id")
+
+    if not date_str:
+        return "日付が指定されていません"
+
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+    # ⭐ 今日カウント（指定商品）
+    today_count = 0
+
+    if photo_id:
+        today_count = db.session.query(
+            db.func.coalesce(db.func.sum(SearchHistory.count), 0)
+        ).filter(
+            SearchHistory.photo_id == photo_id,
+            SearchHistory.date == date_obj
+        ).scalar()
+
+    # ⭐ 日別一覧取得
+    user_id = session["user_id"]
+
+    results = db.session.query(
+        Photo,
+        db.func.coalesce(SearchHistory.count, 0)
+    ).join(
+        SearchHistory,
+        Photo.id == SearchHistory.photo_id
+    ).filter(
+        SearchHistory.date == date_obj,
+        SearchHistory.user_id == user_id
+    ).all()
+
+    return render_template(
+        "calendar_day.html",
+        photos=results,
+        date=date_str,
+        today_count=today_count
+    )
 # ======================
 # 実行
 # ======================
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
