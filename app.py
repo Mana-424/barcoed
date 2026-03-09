@@ -34,7 +34,10 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_pre_ping": True
 }
 
-app.config["UPLOAD_FOLDER"] = "static/uploads"
+# app.config["UPLOAD_FOLDER"] = "static/uploads"
+# os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+app.config["UPLOAD_FOLDER"] = "/uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 db = SQLAlchemy(app)
@@ -70,6 +73,13 @@ class SearchHistory(db.Model):
 
 with app.app_context():
     db.create_all()
+
+from flask import send_from_directory
+
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
 
 # ======================
 # ログインチェック
@@ -316,15 +326,29 @@ def search():
 # # 削除
 # # ======================
 
+# @app.route("/delete/<string:photo_id>", methods=["POST"])
+# def delete(photo_id):
+#     photo = Photo.query.get_or_404(photo_id)
+
+#     db.session.delete(photo)
+#     db.session.commit()
+
+#     return redirect(url_for("index"))
+
 @app.route("/delete/<string:photo_id>", methods=["POST"])
 def delete(photo_id):
+
     photo = Photo.query.get_or_404(photo_id)
+
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"], photo.filename)
+
+    if os.path.exists(file_path):
+        os.remove(file_path)
 
     db.session.delete(photo)
     db.session.commit()
 
     return redirect(url_for("index"))
-
 
 # # ======================
 # # カレンダーイベント
@@ -600,6 +624,7 @@ def calendar_day():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
