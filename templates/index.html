@@ -34,7 +34,7 @@
 
 <div class="card">
 
-<img src="{{ url_for('static', filename='uploads/' + photo.filename) }}">
+<img src="{{ url_for('uploaded_file', filename=photo.filename) }}">
 
 <div class="card-body">
 
@@ -72,6 +72,7 @@
 
 
 {% endblock %}
+
 
 
 
