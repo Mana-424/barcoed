@@ -35,7 +35,8 @@
         <!-- 右：写真 -->
         <div class="search-image">
 
-            <img src="{{ url_for('static', filename='uploads/' + photo.filename) }}">
+            <!-- <img src="{{ url_for('static', filename='uploads/' + photo.filename) }}"> -->
+               <img src="{{ url_for('uploaded_file', filename=photo.filename) }}">
               <p>ID：{{ photo.id }}</p>
         </div>
 
@@ -61,3 +62,4 @@ input.addEventListener("input", function(){
 
 
 {% endblock %}
+
