@@ -22,13 +22,13 @@
 
             
 
-            <p class = "name1">商品名＿＿＿＿:        {{ photo.name or "未設定" }}</p>
+            <pre class = "name1">商品名          :{{ photo.name or "未設定" }}</pre>
 
-            <p class = "name1">色＿＿＿＿＿＿:             {{ photo.color or "未設定" }}</p>
+            <pre class = "name1">色             :{{ photo.color or "未設定" }}</pre>
 
-            <p class = "name1">総合カウント回数:{{ total_count }}</p>
+            <pre class = "name1">総合カウント回数:{{ total_count }}</pre>
 
-            <p class = "name1">今日カウント回数:{{ today_count }}</p>
+            <pre class = "name1">今日カウント回数:{{ today_count }}</pre>
 
         </div>
 
@@ -62,4 +62,5 @@ input.addEventListener("input", function(){
 
 
 {% endblock %}
+
 
