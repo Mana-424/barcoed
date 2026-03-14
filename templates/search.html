@@ -49,17 +49,21 @@
 <script>
 const input = document.getElementById("barcodeInput");
 
-input.addEventListener("input", function(){
+if (input) {
 
-    this.value = this.value.replace(/[^0-9]/g,"");
+    input.addEventListener("input", function(){
 
-    if(this.value.length === 13){
-        window.location.href = "/search?keyword=" + this.value;
-    }
+        this.value = this.value.replace(/[^0-9]/g,"");
 
-       
-});
-       
+        if(this.value.length === 13){
+            window.location.href = "/search?keyword=" + this.value;
+        }
+
+    });
+
+}
+
+// ページ読み込み後に一番下へスクロール
 window.onload = function() {
     window.scrollTo(0, document.body.scrollHeight);
 };
