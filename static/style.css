@@ -188,6 +188,12 @@ nav a:hover {
     body {
         background-color: lightblue;
     }
+    .search-image{
+    width:50%;
+    position:absolute;
+    right:100px;
+    top:100px;
+    }
 }
 
 
