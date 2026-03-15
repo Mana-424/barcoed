@@ -18,20 +18,29 @@
     <div class="search-card-inner">
 
         <!-- 左：情報 -->
-        <div class="search-info">
-
-            
-
-            <pre class = "name1">商品名                :{{ photo.name or "未設定" }}</pre>
-
-            <pre class = "name1">色                       :{{ photo.color or "未設定" }}</pre>
-
-            <pre class = "name1">総合カウント回数:{{ total_count }}</pre>
-
-            <pre class = "name1">今日カウント回数:{{ today_count }}</pre>
-
-        </div>
-
+       <div class="search-info">
+       
+           <div class="info-block">
+               <div class="label">商品名</div>
+               <div class="value">{{ photo.name or "未設定" }}</div>
+           </div>
+       
+           <div class="info-block">
+               <div class="label">色</div>
+               <div class="value">{{ photo.color or "未設定" }}</div>
+           </div>
+       
+           <div class="info-block">
+               <div class="label">総合カウント回数</div>
+               <div class="value">{{ total_count }}</div>
+           </div>
+       
+           <div class="info-block">
+               <div class="label">今日カウント回数</div>
+               <div class="value">{{ today_count }}</div>
+           </div>
+       
+       </div>
         <!-- 右：写真 -->
         <div class="search-image">
 
