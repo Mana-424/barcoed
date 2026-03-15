@@ -3,6 +3,8 @@
 
 <h2>一覧</h2>
 
+<p class = "warning">許可されていない変更を加えないで下さい</p>
+
 <div class="photo-grid">
 
 {% for photo, today_count in photos %}
@@ -55,7 +57,10 @@
 
 </div>
 <!-- 削除 -->
-<form method="POST" action="{{ url_for('delete', photo_id=photo.id) }}">
+<form method="POST" action="{{ url_for('delete', photo_id=photo.id) }}"
+onsubmit="return confirm('本当に削除しますか？一度消すとデータを戻すことはできません。')"
+onsubmit="return confirm('本当に削除しますか？削除するとすべてのアカウントからこの商品のデータが消えます。')">
+       
 <button type="submit" class="delete-btn">
        削除
 </button>
