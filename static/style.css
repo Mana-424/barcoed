@@ -18,8 +18,8 @@ body {
 }
 
 /* 左：情報 */
-/* .search-info{
-    width:40%;
+.search-info{
+    width:50%;
     display:flex;
     flex-direction:column;
     justify-content:space-around;
@@ -28,7 +28,7 @@ body {
     "Segoe UI",
     "Meiryo",
     sans-serif;
-} */
+}
 
 /* 右：写真 */
 .search-image{
