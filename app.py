@@ -134,19 +134,29 @@ def register():
 @app.route("/login", methods=["GET","POST"])
 def login():
 
+    return render_template("login.html")
+    try:
     if request.method == "POST":
 
         username = request.form.get("username")
         password = request.form.get("password")
 
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(
+            username=username
+        ).first()
 
         if user and check_password_hash(user.password, password):
 
-            session["user_id"] = user.id
-            session["username"] = user.username
+        session["user_id"] = user.id
+        session["username"] = user.username
 
-            return redirect(url_for("index"))
+        return redirect(url_for("index"))
+    
+    except OperationalError:
+        return render_template(
+            "error.html",
+            message="データベースに接続できません。しばらくしてから再度お試しください。"
+        )
 
     return render_template("login.html")
 
